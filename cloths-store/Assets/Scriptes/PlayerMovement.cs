@@ -40,16 +40,11 @@ public class PlayerMovement : MonoBehaviour {
 		jump = false;
 	}
 
-    private void OnCollisionEnter2D(Collision2D collision)
+    void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.gameObject.name == "ClothesStore")
         {
             TheGameManager.openDoor = true;
         }
     }
-
-    //private void OnTriggerEnter2D(Collider2D collision)
-    //{
-        
-    //}
 }
