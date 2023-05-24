@@ -17,6 +17,7 @@ public class TheGameManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+
         if(openDoor == true)
         {
             enterStoreUI.SetActive(true);
