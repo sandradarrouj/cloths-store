@@ -14,8 +14,13 @@ public class PlayerMovement2D : MonoBehaviour
         movement.x = Input.GetAxisRaw("Horizontal");
         movement.y = Input.GetAxisRaw("Vertical");
     }
-    private void FixedUpdate()
+    void FixedUpdate()
     {
         rb.MovePosition(rb.position + movement * moveSpeed * Time.fixedDeltaTime);
+    }
+
+    void OnTriggerEnter2D(Collider2D collision)
+    {
+        TheGameManager.openDoor = true;
     }
 }
