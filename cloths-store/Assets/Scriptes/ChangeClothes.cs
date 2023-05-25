@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class ChengeClothes : MonoBehaviour
+public class ChangeClothes : MonoBehaviour
 {
     public GameObject clothesOptions;
     public GameObject colorsOptions;
@@ -11,9 +11,9 @@ public class ChengeClothes : MonoBehaviour
     public Sprite[] pants;
     public Sprite[] shoes;
 
-    public static List<Sprite> myShirts;
-    public static List<Sprite> myPants;
-    public static List<Sprite> myShoes;
+    public static Sprite myShirts;
+    public static Sprite myPants;
+    public static Sprite myShoes;
     public GameObject player;
 
     bool isShirt = false;
@@ -21,14 +21,20 @@ public class ChengeClothes : MonoBehaviour
     bool isShoes = false;
     public static bool doneShopping = false;
     bool Picked = false;
+    public int[] prices;
+
+    public static bool outfitOn = false;
     // Start is called before the first frame update
     void Start()
     {
         clothesOptions.SetActive(true);
         colorsOptions.SetActive(false);
-        myShirts = new List<Sprite>();
-        myPants = new List<Sprite>();
-        myShoes = new List<Sprite>();
+    }
+
+    void Update()
+    {
+        if (myPants != null || myShirts != null || myShoes != null)
+            outfitOn = true;
     }
 
     // Update is called once per frame
@@ -143,25 +149,45 @@ public class ChengeClothes : MonoBehaviour
             {
                 if (part.name == "Shirt" && isShirt && part.gameObject.activeSelf)
                 {
-                    myShirts.Add(part.GetComponent<SpriteRenderer>().sprite);
-                    Debug.Log("shirt");
+                    if(TheGameManager.Money - prices[0] >= 0)
+                    {
+                        myShirts = part.GetComponent<SpriteRenderer>().sprite;
+                        TheGameManager.Money = TheGameManager.Money - prices[0];
+                    }
                 }
 
                 else if (part.name == "Pants" && isPants && part.gameObject.activeSelf)
                 {
-                    myPants.Add(part.GetComponent<SpriteRenderer>().sprite);
-                    Debug.Log("pants");
+                    if (TheGameManager.Money - prices[1] >= 0)
+                    {
+                        myPants = part.GetComponent<SpriteRenderer>().sprite;
+                        TheGameManager.Money = TheGameManager.Money - prices[1];
+                    }
+                        
                 }
 
                 else if (part.name == "Shoes" && isShoes && part.gameObject.activeSelf)
                 {
-                    myShoes.Add(part.GetComponent<SpriteRenderer>().sprite);
-                    Debug.Log("shoes");
+                    if (TheGameManager.Money - prices[2] >= 0)
+                    {
+                        myShoes = part.GetComponent<SpriteRenderer>().sprite;
+                        TheGameManager.Money = TheGameManager.Money - prices[2];
+                    }
+                        
                 }
             }
             OnBackToClothes();
         }
         
+    }
+
+    public void OnRestRoom()
+    {
+        foreach (Transform part in player.transform)
+        {
+            if (part.name == "Shirt" || part.name == "Pants" || part.name == "Shoes")
+                part.gameObject.SetActive(false);
+        }
     }
     
 }
